@@ -1,4 +1,4 @@
-<script>
+   <script>
   import { onMount } from 'svelte';
 
   let activeSection = null;
@@ -6,14 +6,14 @@
   let isAnimating = false;
 
   // Scrollytelling state
-  let headerFixed = false;       // title bar is pinned to top
-  let currentStep = 0;           // which paragraph step is active (0 = none, 1-3 = paragraphs)
-  let hubVisible = false;        // hub has entered view
+  let headerFixed = false;
+  let currentStep = 0;
+  let hubVisible = false;
 
   const paragraphs = [
-    "In a society where connection is increasingly curated by algorithms and mediated by screens, certain spaces still force us into physical proximity — across difference, across distance, across the boundaries we'd otherwise never cross.",
-    "What are those spaces? Where does common necessity still bring us together, body to body, sense to sense? And what can we learn from them?",
-    "One such space: the youth travel soccer field. Before children age into elite programs divided by the privilege of training and zip code, before participation tapers off, there is the common bond of the town travel team — the one that draws from wherever you happen to live. What sustains this world in a divided society? What quietly threatens it?"
+    "In a society where connection is increasingly curated by algorithms and mediated by digital communication, what are the spaces that still force connection across boundaries?",
+    "What are the spaces where we connect with our senses and one another, where activities or common necessity brings us together in physical proximity? What can we learn from those spaces?",
+    "To begin to answer, we look at one such space: the youth travel soccer field. Before children age into divisions of elite training or privileged education or participation taper, there is the common bond of the town travel team. What sustains this world in a divided society? What threatens it?"
   ];
 
   const senses = [
@@ -107,13 +107,11 @@
   function clearHover() { hoveredNode = null; }
 
   onMount(() => {
-    // IntersectionObserver for the hero title — when it leaves view, fix the header
     const heroObserver = new IntersectionObserver(
       ([entry]) => { headerFixed = !entry.isIntersecting; },
       { threshold: 0, rootMargin: '-80px 0px 0px 0px' }
     );
 
-    // IntersectionObserver for each scroll step paragraph
     const stepObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
@@ -126,7 +124,6 @@
       { threshold: 0.5 }
     );
 
-    // IntersectionObserver for the hub section
     const hubObserver = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) hubVisible = true; },
       { threshold: 0.15 }
@@ -205,7 +202,6 @@
   }
 
   /* ── HERO TITLE SECTION ── */
-  /* Tall opening screen — title centered vertically */
   .hero {
     min-height: 100vh;
     display: flex;
@@ -214,6 +210,7 @@
     justify-content: center;
     text-align: center;
     padding: 4rem 2rem 6rem;
+    position: relative;
   }
 
   .meta-line {
@@ -253,7 +250,19 @@
     letter-spacing: 0.01em;
   }
 
-  /* Scroll prompt at bottom of hero */
+  /* Red prototype warning */
+  .prototype-warning {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #b02020;
+    margin-top: 1.2rem;
+    max-width: 420px;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  /* Scroll prompt */
   .scroll-cue {
     position: absolute;
     bottom: 2.5rem;
@@ -282,7 +291,7 @@
     50%       { transform: translateX(-50%) translateY(5px); }
   }
 
-  /* ── FIXED HEADER BAR (appears after scroll) ── */
+  /* ── FIXED HEADER BAR ── */
   .fixed-header {
     position: fixed;
     top: 0;
@@ -342,12 +351,11 @@
     color: rgba(100,80,45,0.4);
   }
 
-  /* ── SCROLL STEPS (paragraphs) ── */
+  /* ── SCROLL STEPS ── */
   .scroll-steps {
     padding: 0 2rem;
   }
 
-  /* Each step fills most of the viewport height */
   .scroll-step {
     min-height: 80vh;
     display: flex;
@@ -534,7 +542,6 @@
     transition: opacity 0.8s ease 0.3s;
   }
 
-  .hub-section.visible ~ .below-hub,
   .below-hub.visible {
     opacity: 1;
   }
@@ -729,7 +736,7 @@
 <div class="paper-lines"></div>
 <div class="paper-vignette"></div>
 
-<!-- Fixed header bar — slides in after hero scrolls away -->
+<!-- Fixed header bar -->
 <div class="fixed-header {headerFixed ? 'visible' : 'hidden'}">
   <span class="fixed-title">Systems for the Senses</span>
   <span class="fixed-divider">·</span>
@@ -739,16 +746,17 @@
 
 <div class="page">
 
-  <!-- ── HERO: full-screen title ── -->
+  <!-- ── HERO ── -->
   <section class="hero" id="hero-title">
     <div class="meta-line">RR Sigel — 2026</div>
     <div class="meta-sub">Breaking the Algorithm in 2026</div>
     <h1>Systems for the Senses</h1>
     <div class="title-sub">The Youth Soccer Field</div>
+    <div class="prototype-warning">This is a prototype for a project in-process. It was created for a class assignment using AI support.</div>
     <div class="scroll-cue">scroll</div>
   </section>
 
-  <!-- ── SCROLL STEPS: three paragraphs ── -->
+  <!-- ── SCROLL STEPS ── -->
   <div class="scroll-steps">
     {#each paragraphs as para, i}
       <div
